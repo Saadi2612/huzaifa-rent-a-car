@@ -1,0 +1,310 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   HUZAIFA — RENT A CAR
+   Design system derived from `dayos-DESIGN.md` / `dayos-design.json`.
+
+   DELIBERATE DEVIATIONS FROM THE SOURCE SYSTEM (documented, not accidental):
+   1. Accent colour: source `yellow #fff100` -> `blue #2c58ff` (client-chosen
+      primary). All other palette roles kept 1:1.
+   2. Elevation: the source system is explicitly flat ("no validated shadow
+      payload"). This build introduces a soft, tinted shadow scale because the
+      brief calls for a floating card language. Shadows are low-opacity and
+      blue-tinted so they read as light, not as heavy Material elevation.
+   3. Typeface: SuisseIntlCond / SuisseIntl are licensed. Substituted with
+      Archivo (variable `wdth` axis, squeezed to 75% for display) and Inter.
+   Everything else — radii, spacing grid, border/greys, pill nav — is on-token.
+   ========================================================================== */
+
+@theme {
+  /* ---- Colour ---------------------------------------------------------- */
+  --color-ink: #000000;
+  --color-paper: #ffffff;
+
+  --color-grey-100: #f3f3f3;
+  --color-grey-200: #e5e5e5;
+  --color-grey-500: #979797;
+  --color-grey-600: #444444;
+
+  /* Primary (replaces source yellow) */
+  --color-brand: #2c58ff;
+  --color-brand-hover: #1f42cc;
+  --color-brand-tint: #eaefff;
+  --color-brand-tint-2: #d6e0ff;
+
+  /* ---- Radii (source tokens, verbatim) --------------------------------- */
+  --radius-chip: 3.5556px;
+  --radius-subtle: 8.8889px;
+  --radius-control: 10.6667px;
+  --radius-card: 21.3333px;
+  --radius-large: 28.4444px;
+  --radius-nav: 42.6667px;
+  --radius-pill: 56.8889px;
+  --radius-circle: 999px;
+
+  /* ---- Spacing grid (source tokens, verbatim) -------------------------- */
+  --spacing-p1: 0.8rem;
+  --spacing-p2: 1.6rem;
+  --spacing-p3: 2.4rem;
+  --spacing-p4: 3.2rem;
+  --spacing-p5: 4rem;
+  --spacing-p6: 4.8rem;
+  --spacing-p7: 5.6rem;
+  --spacing-p8: 6.4rem;
+  --spacing-p10: 8rem;
+  --spacing-p12: 9.6rem;
+
+  /* ---- Elevation (deviation #2) ---------------------------------------- */
+  --shadow-lift-sm: 0 1px 2px rgba(10, 16, 40, 0.04),
+    0 4px 10px -2px rgba(10, 16, 40, 0.06);
+  --shadow-lift: 0 2px 4px rgba(10, 16, 40, 0.04),
+    0 12px 28px -8px rgba(10, 16, 40, 0.1);
+  --shadow-lift-lg: 0 4px 8px rgba(10, 16, 40, 0.04),
+    0 28px 60px -18px rgba(10, 16, 40, 0.16);
+  --shadow-lift-brand: 0 10px 24px -8px rgba(44, 88, 255, 0.45);
+  --shadow-lift-hover: 0 6px 12px rgba(10, 16, 40, 0.05),
+    0 36px 70px -20px rgba(10, 16, 40, 0.2);
+
+  /* ---- Type ------------------------------------------------------------ */
+  --font-display: var(--font-archivo), "Archivo", system-ui, sans-serif;
+  --font-sans: var(--font-inter), "Inter", system-ui, sans-serif;
+
+  /* ---- Motion ---------------------------------------------------------- */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.55;
+    letter-spacing: -0.01em;
+  }
+
+  ::selection {
+    background: var(--color-brand);
+    color: var(--color-paper);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-brand);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+/* ==========================================================================
+   Type utilities — condensed display scale
+   Source scale is fixed-px; reproduced here as fluid clamp() so the extreme
+   sizes survive a 375px viewport.
+   ========================================================================== */
+
+@utility display-xl {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: 75%;
+  font-size: clamp(3.25rem, 9vw, 7.222rem); /* -> 115.556px */
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+@utility display-l {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: 75%;
+  font-size: clamp(2.75rem, 6vw, 4.444rem); /* -> 71.111px */
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+@utility display-m {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: 75%;
+  font-size: clamp(2.25rem, 4.4vw, 3.556rem); /* -> 56.889px */
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+@utility display-s {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: 75%;
+  font-size: clamp(1.75rem, 3.2vw, 2.667rem); /* -> 42.667px */
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+@utility subheading {
+  font-family: var(--font-sans);
+  font-weight: 450;
+  font-size: clamp(1.25rem, 2vw, 1.556rem);
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+}
+
+@utility label-ui {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.778rem; /* 12.444px */
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+@utility label-eyebrow {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+@utility body-default {
+  font-size: 0.889rem; /* 14.222px */
+  line-height: 1.6;
+}
+
+@utility mono-small {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 0.667rem; /* 10.667px */
+  line-height: 1.6;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+/* ==========================================================================
+   Layout helpers
+   ========================================================================== */
+
+@utility shell {
+  width: 100%;
+  max-width: 1360px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+
+  @media (min-width: 768px) {
+    padding-inline: 2.5rem;
+  }
+  @media (min-width: 1280px) {
+    padding-inline: 4rem; /* --grid-side-margin 8rem == 128px total */
+  }
+}
+
+/* Floating surface — the core card primitive for this build. */
+@utility float-card {
+  background: var(--color-paper);
+  border: 1px solid var(--color-grey-200);
+  border-radius: var(--radius-large);
+  box-shadow: var(--shadow-lift);
+  transition:
+    transform 0.45s var(--ease-out-soft),
+    box-shadow 0.45s var(--ease-out-soft),
+    border-color 0.45s var(--ease-out-soft);
+}
+
+@utility float-hover {
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lift-hover);
+    border-color: transparent;
+  }
+}
+
+/* Placeholder tile used wherever a real photo will drop in later. */
+@utility photo-slot {
+  position: relative;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      135deg,
+      var(--color-grey-100) 0%,
+      var(--color-paper) 45%,
+      var(--color-brand-tint) 100%
+    );
+}
+
+/* ==========================================================================
+   Motion
+   ========================================================================== */
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.reveal {
+  opacity: 0;
+  animation: rise-in 0.8s var(--ease-out-soft) forwards;
+}
+
+.marquee-track {
+  animation: marquee 34s linear infinite;
+}
+
+.bob {
+  animation: bob 7s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1;
+  }
+}
+
+/* Hide scrollbars on horizontal rails without killing keyboard scroll. */
+.no-bar {
+  scrollbar-width: none;
+}
+.no-bar::-webkit-scrollbar {
+  display: none;
+}

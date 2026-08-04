@@ -1,0 +1,248 @@
+{
+  "color": {
+    "Black": {
+      "$type": "color",
+      "$value": "#000000",
+      "$description": "Primary text, button fills, icon fills, hero backgrounds"
+    },
+    "White": {
+      "$type": "color",
+      "$value": "#ffffff",
+      "$description": "Modal surfaces, card backgrounds, input backgrounds, body text on dark surfaces"
+    },
+    "Grey 100": {
+      "$type": "color",
+      "$value": "#f3f3f3",
+      "$description": "Nav bar pill background, secondary surface fills"
+    },
+    "Grey 200": {
+      "$type": "color",
+      "$value": "#e5e5e5",
+      "$description": "Dividers, input borders, subtle separators"
+    },
+    "Grey 500": {
+      "$type": "color",
+      "$value": "#979797",
+      "$description": "Placeholder text, secondary labels, muted captions"
+    },
+    "Grey 600": {
+      "$type": "color",
+      "$value": "#444444",
+      "$description": "Nav link text, secondary body text, form labels"
+    },
+    "Yellow": {
+      "$type": "color",
+      "$value": "#fff100",
+      "$description": "Primary CTA button background, brand accent highlights"
+    },
+    "Green Pillar 2 (Mint)": {
+      "$type": "color",
+      "$value": "#d1ffca",
+      "$description": "Pillar/feature section background tint (--cl-pillar1)"
+    }
+  },
+  "typography": {
+    "Hero Display XL": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "SuisseIntlCond",
+        "fontSize": "115.556px",
+        "fontWeight": 700,
+        "lineHeight": "104px",
+        "letterSpacing": "-3.46667px"
+      },
+      "$description": "Largest hero headline, full-bleed section titles"
+    },
+    "Hero Display L": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "SuisseIntlCond",
+        "fontSize": "71.1111px",
+        "fontWeight": 700,
+        "lineHeight": "64px",
+        "letterSpacing": "-2.13333px"
+      },
+      "$description": "Primary hero and section display headlines"
+    },
+    "Hero Display M": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "SuisseIntlCond",
+        "fontSize": "56.8889px",
+        "fontWeight": 700,
+        "lineHeight": "51.2px",
+        "letterSpacing": "-1.70667px"
+      },
+      "$description": "Mid-size section headlines"
+    },
+    "Display S": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "SuisseIntlCond",
+        "fontSize": "42.6667px",
+        "fontWeight": 700,
+        "lineHeight": "38.4px",
+        "letterSpacing": "-1.28px"
+      },
+      "$description": "Sub-section headings, modal titles (e.g. 'BE THE FIRST TO EXPLORE')"
+    },
+    "Subheading": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "SuisseIntl",
+        "fontSize": "35.5556px",
+        "fontWeight": 450,
+        "lineHeight": "39.1111px",
+        "letterSpacing": "-0.711111px"
+      },
+      "$description": "Large subheadings and pull quotes"
+    },
+    "Body Default": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "SuisseIntl",
+        "fontSize": "14.2222px",
+        "fontWeight": 400,
+        "lineHeight": "17.7778px",
+        "letterSpacing": "normal"
+      },
+      "$description": "Primary body text, paragraph content"
+    },
+    "Label Medium": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "SuisseIntl",
+        "fontSize": "12.4444px",
+        "fontWeight": 500,
+        "lineHeight": "16.1778px",
+        "letterSpacing": "-0.124444px"
+      },
+      "$description": "Nav links, form labels, UI labels, button text"
+    },
+    "Label Small": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "SuisseIntl",
+        "fontSize": "12.4444px",
+        "fontWeight": 500,
+        "lineHeight": "14.2222px",
+        "letterSpacing": "normal"
+      },
+      "$description": "Small UI labels, tags, chips"
+    },
+    "Body Medium": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "SuisseIntl",
+        "fontSize": "14.2222px",
+        "fontWeight": 500,
+        "lineHeight": "17.7778px",
+        "letterSpacing": "-0.284444px"
+      },
+      "$description": "Emphasized body text, feature descriptions"
+    },
+    "Mono Small": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "SuisseIntlMono",
+        "fontSize": "10.6667px",
+        "fontWeight": 400,
+        "lineHeight": "17.0667px",
+        "letterSpacing": "-0.32px"
+      },
+      "$description": "Technical annotations, data labels, code-adjacent text"
+    }
+  },
+  "spacing": {
+    "p1": {
+      "$type": "dimension",
+      "$value": "0.8rem"
+    },
+    "p2": {
+      "$type": "dimension",
+      "$value": "1.6rem"
+    },
+    "p3": {
+      "$type": "dimension",
+      "$value": "2.4rem"
+    },
+    "p4": {
+      "$type": "dimension",
+      "$value": "3.2rem"
+    },
+    "p5": {
+      "$type": "dimension",
+      "$value": "4rem"
+    },
+    "p6": {
+      "$type": "dimension",
+      "$value": "4.8rem"
+    },
+    "p7": {
+      "$type": "dimension",
+      "$value": "5.6rem"
+    },
+    "p8": {
+      "$type": "dimension",
+      "$value": "6.4rem"
+    },
+    "p10": {
+      "$type": "dimension",
+      "$value": "8rem"
+    },
+    "p12": {
+      "$type": "dimension",
+      "$value": "9.6rem"
+    },
+    "section-margin": {
+      "$type": "dimension",
+      "$value": "9.6rem"
+    },
+    "nav-height": {
+      "$type": "dimension",
+      "$value": "8rem"
+    },
+    "grid-side-margin": {
+      "$type": "dimension",
+      "$value": "8rem"
+    },
+    "grid-column-gap": {
+      "$type": "dimension",
+      "$value": "2.4rem"
+    }
+  },
+  "borderRadius": {
+    "Input / Card Small": {
+      "$type": "dimension",
+      "$value": "10.6667px"
+    },
+    "Pill Nav": {
+      "$type": "dimension",
+      "$value": "42.6667px"
+    },
+    "Modal / Large Card": {
+      "$type": "dimension",
+      "$value": "28.4444px"
+    },
+    "Medium Card": {
+      "$type": "dimension",
+      "$value": "21.3333px"
+    },
+    "Full Pill": {
+      "$type": "dimension",
+      "$value": "56.8889px"
+    },
+    "Chip / Tag": {
+      "$type": "dimension",
+      "$value": "3.5556px"
+    },
+    "Button Subtle": {
+      "$type": "dimension",
+      "$value": "8.8889px"
+    },
+    "Full Circle": {
+      "$type": "dimension",
+      "$value": "999px"
+    }
+  }
+}
