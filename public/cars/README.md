@@ -1,22 +1,22 @@
 # Car photos
 
-Drop real photos here using the **exact filenames below**. Nothing else needs to
-change — until a file exists the site renders a styled placeholder slot, and the
-moment you save a real image at the same path it switches to the real photo
-automatically (`lib/photos.ts` checks the filesystem on the server).
+Each car in the fleet has its own folder under `public/cars/`. Inside a folder,
+the file named `main.jpeg` (or `.jpg`/`.png`) is the one shown on the fleet
+card; any extra numbered files (`2.jpeg`, `3.jpeg`, …) are spares, not
+currently shown anywhere on the site.
 
-| Filename           | Used for                          | Recommended size    |
-| ------------------ | --------------------------------- | ------------------- |
-| `hero.jpg`         | Big hero image                    | 1600 × 1200 (4:3)   |
-| `garage.jpg`       | "Why us" service-yard image       | 1200 × 960 (5:4)    |
-| `alto.jpg`         | Suzuki Alto VXL card              | 1200 × 750 (16:10)  |
-| `cultus.jpg`       | Suzuki Cultus VXL card            | 1200 × 750 (16:10)  |
-| `corolla.jpg`      | Toyota Corolla GLi card           | 1200 × 750 (16:10)  |
-| `civic.jpg`        | Honda Civic Oriel card            | 1200 × 750 (16:10)  |
-| `fortuner.jpg`     | Toyota Fortuner card              | 1200 × 750 (16:10)  |
-| `revo.jpg`         | Toyota Hilux Revo card            | 1200 × 750 (16:10)  |
-| `grand-cabin.jpg`  | Toyota Hiace Grand Cabin card     | 1200 × 750 (16:10)  |
-| `audi-a6.jpg`      | Audi A6 card                      | 1200 × 750 (16:10)  |
+`lib/photos.ts` checks the filesystem on the server, so if a `main` file is
+ever missing the card falls back to a styled placeholder slot automatically —
+no broken image icons, no 404s.
+
+## Adding a new car
+
+1. Make a folder here named after the car, e.g. `civic-2022-black/`.
+2. Drop the photo in as `main.jpeg`.
+3. Add an entry to the `FLEET` array in `lib/site.ts` with a matching `image`
+   path (`/cars/<folder>/main.jpeg`). Set `year` and `color`; use `"–"` for
+   `year` if the unit's model year isn't known. That's the whole job — the
+   grid, filters and WhatsApp links all read from that array.
 
 ## Shooting notes
 
@@ -26,10 +26,3 @@ automatically (`lib/photos.ts` checks the filesystem on the server).
 - Plain background — a wall, a clean yard, an empty car park at golden hour.
 - Keep the car centred with a little headroom; cards crop to 16:10.
 - Compress to under ~300 KB each before committing (Squoosh, TinyJPG).
-
-## Adding a new car
-
-1. Add the photo here.
-2. Add an entry to the `FLEET` array in `lib/site.ts` with a matching `image`
-   path. That is the whole job — the grid, filters and WhatsApp links all read
-   from that array.

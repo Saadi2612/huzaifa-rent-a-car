@@ -128,6 +128,9 @@ export default function Fleet({
                   {/* Body */}
                   <div className="flex flex-1 flex-col p-p2">
                     <h3 className="display-s text-[1.625rem] text-ink">{car.name}</h3>
+                    <p className="label-ui mt-0.5 text-grey-500">
+                      {car.year} · {car.color}
+                    </p>
 
                     <ul className="mt-p1 flex flex-wrap gap-x-p2 gap-y-2 text-grey-600">
                       <li className="label-ui flex items-center gap-1.5">
@@ -204,8 +207,8 @@ export default function Fleet({
                 Not seeing what you need?
               </h3>
               <p className="body-default mt-1 max-w-[52ch] text-grey-600">
-                We source cars outside the listed fleet — Prado, V8, Coaster, BRV and
-                more. Tell us the car and the dates.
+                We source cars outside the listed fleet — V8, Coaster, Hiace and more.
+                Tell us the car and the dates.
               </p>
             </div>
             <a
