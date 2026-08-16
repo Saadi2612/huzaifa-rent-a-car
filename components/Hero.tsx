@@ -5,7 +5,7 @@ import { site, waLink } from "@/lib/site";
 import { photoExists } from "@/lib/photos";
 import { ArrowRight, Pin, Shield, Star } from "./icons";
 
-const HERO_IMAGE = "/cars/hero.jpg";
+const HERO_IMAGE = "/cars/hero-image.webp";
 
 export default function Hero() {
   return (

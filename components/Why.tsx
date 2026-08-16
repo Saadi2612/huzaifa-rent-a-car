@@ -4,7 +4,7 @@ import { WHY, site } from "@/lib/site";
 import { photoExists } from "@/lib/photos";
 import { Clock, Shield } from "./icons";
 
-const IMG = "/cars/garage.jpg";
+const IMG = "/cars/why-us.jpg";
 
 export default function Why() {
   return (
