@@ -24,7 +24,6 @@ export default function Home() {
     description:
       "Car rental in Pakistan with verified drivers or self drive. Airport transfers, weddings, corporate contracts and northern tours.",
     telephone: site.phoneHref,
-    email: site.email,
     address: {
       "@type": "PostalAddress",
       streetAddress: site.address,
@@ -32,7 +31,7 @@ export default function Home() {
     },
     areaServed: site.cities.map((c) => ({ "@type": "City", name: c })),
     openingHours: "Mo-Su 00:00-23:59",
-    priceRange: "PKR 4,500 – 45,000 per day",
+    priceRange: "PKR 3,000 – 25,000 per day",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.9",

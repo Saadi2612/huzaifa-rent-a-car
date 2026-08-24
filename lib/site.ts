@@ -2,8 +2,9 @@
  * Single source of truth for everything the client will realistically want to
  * change. Swap these values and the whole site updates — no component edits.
  *
- * ⚠️ PLACEHOLDERS: phone, whatsapp, email, address and all prices are dummy
- * values. Replace before going live.
+ * ⚠️ PLACEHOLDERS: phone, whatsapp and address are still dummy values.
+ * With-driver rates are the client's real prices; self-drive rates are derived
+ * estimates — confirm before going live.
  */
 
 export const site = {
@@ -16,8 +17,8 @@ export const site = {
   /* ⚠️ PLACEHOLDER */
   phoneDisplay: "+92 300 000 0000",
   phoneHref: "+923000000000",
-  /* ⚠️ PLACEHOLDER */
-  email: "booking@huzaifarentacar.pk",
+  /* Not shown for now — uncomment when a real inbox exists. */
+  // email: "booking@huzaifarentacar.pk",
   /* ⚠️ PLACEHOLDER */
   address: "Main Boulevard, Gulberg III, Lahore, Pakistan",
   hours: "Open 24/7 — including Eid & public holidays",
@@ -55,7 +56,7 @@ export type Car = {
   luggage: number;
   transmission: "Automatic" | "Manual";
   fuel: string;
-  /** Rates in PKR per day. ⚠️ PLACEHOLDER pricing. */
+  /** Rates in PKR per day. Self-drive is null when the car is with-driver only. */
   rate: { withDriver: number; selfDrive: number | null };
   tags: string[];
   /** Drop a real photo at this path — see /public/cars/README.md */
@@ -74,7 +75,7 @@ export const FLEET: Car[] = [
     luggage: 2,
     transmission: "Automatic",
     fuel: "Petrol · AGS",
-    rate: { withDriver: 6500, selfDrive: 4500 },
+    rate: { withDriver: 3000, selfDrive: 2000 },
     tags: ["Best for city runs", "Lowest fuel cost"],
     image: "/cars/alto-white/main.jpeg",
   },
@@ -88,7 +89,7 @@ export const FLEET: Car[] = [
     luggage: 2,
     transmission: "Automatic",
     fuel: "Petrol · AGS",
-    rate: { withDriver: 7000, selfDrive: 5000 },
+    rate: { withDriver: 3000, selfDrive: 2000 },
     tags: ["Daily commute", "Tall & roomy"],
     image: "/cars/wagon-r-white/main.jpeg",
   },
@@ -131,7 +132,7 @@ export const FLEET: Car[] = [
     luggage: 3,
     transmission: "Automatic",
     fuel: "Petrol · Hybrid",
-    rate: { withDriver: 17500, selfDrive: 13500 },
+    rate: { withDriver: 12000, selfDrive: 9000 },
     tags: ["Crossover comfort"],
     image: "/cars/corolla-cross/main.jpeg",
   },
@@ -159,8 +160,8 @@ export const FLEET: Car[] = [
     luggage: 3,
     transmission: "Automatic",
     fuel: "Petrol",
-    rate: { withDriver: 10000, selfDrive: 7500 },
-    tags: ["Fuel efficient"],
+    rate: { withDriver: 4500, selfDrive: 3500 },
+    tags: ["Fuel efficient", "Islamabad trip Rs 7,000"],
     image: "/cars/yaris-white/main.jpeg",
   },
   {
@@ -201,7 +202,7 @@ export const FLEET: Car[] = [
     luggage: 3,
     transmission: "Automatic",
     fuel: "Petrol · CVT",
-    rate: { withDriver: 14000, selfDrive: 11000 },
+    rate: { withDriver: 8000, selfDrive: 6000 },
     tags: ["Weddings", "Corporate"],
     image: "/cars/civic-2020-white/main.jpeg",
   },
@@ -215,7 +216,7 @@ export const FLEET: Car[] = [
     luggage: 3,
     transmission: "Automatic",
     fuel: "Petrol · CVT",
-    rate: { withDriver: 14000, selfDrive: 11000 },
+    rate: { withDriver: 8000, selfDrive: 6000 },
     tags: ["Weddings", "Corporate"],
     image: "/cars/civic-2020-black/main.jpeg",
   },
@@ -229,7 +230,7 @@ export const FLEET: Car[] = [
     luggage: 3,
     transmission: "Automatic",
     fuel: "Petrol · CVT",
-    rate: { withDriver: 14000, selfDrive: 11000 },
+    rate: { withDriver: 8000, selfDrive: 6000 },
     tags: ["Corporate"],
     image: "/cars/civic-2020-silver/main.jpeg",
   },
@@ -243,7 +244,7 @@ export const FLEET: Car[] = [
     luggage: 3,
     transmission: "Automatic",
     fuel: "Petrol · CVT",
-    rate: { withDriver: 15500, selfDrive: 12500 },
+    rate: { withDriver: 12000, selfDrive: 9500 },
     tags: ["Newer unit", "Weddings"],
     image: "/cars/civic-2024-white/main.jpeg",
     featured: true,
@@ -272,7 +273,7 @@ export const FLEET: Car[] = [
     luggage: 3,
     transmission: "Automatic",
     fuel: "Petrol",
-    rate: { withDriver: 19000, selfDrive: 14500 },
+    rate: { withDriver: 12000, selfDrive: 9000 },
     tags: ["Newer unit"],
     image: "/cars/jolion-2026-black/main.jpeg",
   },
@@ -286,7 +287,7 @@ export const FLEET: Car[] = [
     luggage: 3,
     transmission: "Automatic",
     fuel: "Petrol",
-    rate: { withDriver: 18000, selfDrive: 14000 },
+    rate: { withDriver: 10000, selfDrive: 8000 },
     tags: ["Comfort SUV"],
     image: "/cars/sportage/main.jpeg",
   },
@@ -300,7 +301,7 @@ export const FLEET: Car[] = [
     luggage: 4,
     transmission: "Automatic",
     fuel: "Diesel · 4x4",
-    rate: { withDriver: 40000, selfDrive: null },
+    rate: { withDriver: 20000, selfDrive: null },
     tags: ["Northern tours", "Protocol"],
     image: "/cars/prado-black/main.jpeg",
   },
@@ -314,7 +315,7 @@ export const FLEET: Car[] = [
     luggage: 5,
     transmission: "Automatic",
     fuel: "Diesel · 4x4",
-    rate: { withDriver: 55000, selfDrive: null },
+    rate: { withDriver: 25000, selfDrive: null },
     tags: ["Luxury", "Protocol"],
     image: "/cars/land-cruiser-white/main.jpeg",
     featured: true,
