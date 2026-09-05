@@ -2,9 +2,8 @@
  * Single source of truth for everything the client will realistically want to
  * change. Swap these values and the whole site updates — no component edits.
  *
- * ⚠️ PLACEHOLDERS: phone, whatsapp and address are still dummy values.
- * With-driver rates are the client's real prices; self-drive rates are derived
- * estimates — confirm before going live.
+ * ⚠️ PLACEHOLDERS: address and the SERVICES "from" prices are still dummy
+ * values. Phone, WhatsApp and fleet rates are real.
  */
 
 export const site = {
@@ -12,13 +11,13 @@ export const site = {
   fullName: "Huzaifa — Rent A Car",
   tagline: "Rent A Car",
 
-  /* ⚠️ PLACEHOLDER — international format, digits only, no + or spaces */
-  whatsapp: "923000000000",
-  /* ⚠️ PLACEHOLDER */
-  phoneDisplay: "+92 300 000 0000",
-  phoneHref: "+923000000000",
-  /* Not shown for now — uncomment when a real inbox exists. */
-  // email: "booking@huzaifarentacar.pk",
+  /* International format, digits only, no + or spaces */
+  whatsapp: "923014505011",
+  phoneDisplay: "+92 301 450 5011",
+  phoneHref: "+923014505011",
+  /* Real inbox — kept hidden for now. Uncomment this line and the
+     `email: site.email` line in app/page.tsx to show it. */
+  // email: "Nadeemprotocol5050@gmail.com",
   /* ⚠️ PLACEHOLDER */
   address: "Main Boulevard, Gulberg III, Lahore, Pakistan",
   hours: "Open 24/7 — including Eid & public holidays",
@@ -45,19 +44,30 @@ export const NAV_LINKS = [
 
 export type RentalMode = "with-driver" | "self-drive";
 
+/**
+ * Two pricing shapes:
+ * - "city"  — in-city rate is fixed, out-of-city starts at `outCity`. Both are
+ *             WITHOUT-DRIVER rates; with a driver we quote on WhatsApp.
+ * - "from"  — a single starting price. No driver split is advertised for these.
+ */
+export type Rate =
+  | { kind: "city"; inCity: number; outCity: number }
+  | { kind: "from"; startingFrom: number };
+
 export type Car = {
   id: string;
   name: string;
   /** Model year — "–" when not known for this unit. */
   year: string;
+  /** One card can cover several colours of the same model, e.g. "White / Silver". */
   color: string;
   category: "Economy" | "Sedan" | "SUV" | "Executive";
   seats: number;
   luggage: number;
   transmission: "Automatic" | "Manual";
   fuel: string;
-  /** Rates in PKR per day. Self-drive is null when the car is with-driver only. */
-  rate: { withDriver: number; selfDrive: number | null };
+  /** Rates in PKR per day. */
+  rate: Rate;
   tags: string[];
   /** Drop a real photo at this path — see /public/cars/README.md */
   image: string;
@@ -75,7 +85,7 @@ export const FLEET: Car[] = [
     luggage: 2,
     transmission: "Automatic",
     fuel: "Petrol · AGS",
-    rate: { withDriver: 3000, selfDrive: 2000 },
+    rate: { kind: "city", inCity: 3000, outCity: 6000 },
     tags: ["Best for city runs", "Lowest fuel cost"],
     image: "/cars/alto-white/main.jpeg",
   },
@@ -89,52 +99,24 @@ export const FLEET: Car[] = [
     luggage: 2,
     transmission: "Automatic",
     fuel: "Petrol · AGS",
-    rate: { withDriver: 3000, selfDrive: 2000 },
+    rate: { kind: "city", inCity: 3000, outCity: 6000 },
     tags: ["Daily commute", "Tall & roomy"],
     image: "/cars/wagon-r-white/main.jpeg",
   },
   {
-    id: "corolla-white",
+    id: "corolla",
     name: "Toyota Corolla",
     year: "–",
-    color: "White",
+    color: "White / Silver",
     category: "Sedan",
     seats: 5,
     luggage: 3,
     transmission: "Automatic",
     fuel: "Petrol",
-    rate: { withDriver: 10500, selfDrive: 8000 },
+    rate: { kind: "city", inCity: 5000, outCity: 6000 },
     tags: ["Most booked", "Airport favourite"],
     image: "/cars/corolla-white/main.jpeg",
     featured: true,
-  },
-  {
-    id: "corolla-silver",
-    name: "Toyota Corolla",
-    year: "–",
-    color: "Silver",
-    category: "Sedan",
-    seats: 5,
-    luggage: 3,
-    transmission: "Automatic",
-    fuel: "Petrol",
-    rate: { withDriver: 10500, selfDrive: 8000 },
-    tags: ["Airport favourite"],
-    image: "/cars/corolla-silver/main.jpeg",
-  },
-  {
-    id: "corolla-cross",
-    name: "Toyota Corolla Cross",
-    year: "–",
-    color: "–",
-    category: "SUV",
-    seats: 5,
-    luggage: 3,
-    transmission: "Automatic",
-    fuel: "Petrol · Hybrid",
-    rate: { withDriver: 12000, selfDrive: 9000 },
-    tags: ["Crossover comfort"],
-    image: "/cars/corolla-cross/main.jpeg",
   },
   {
     id: "hona-city-2024-white",
@@ -146,7 +128,7 @@ export const FLEET: Car[] = [
     luggage: 3,
     transmission: "Automatic",
     fuel: "Petrol · CVT",
-    rate: { withDriver: 10500, selfDrive: 8000 },
+    rate: { kind: "city", inCity: 5000, outCity: 7000 },
     tags: ["Newer unit", "City runs"],
     image: "/cars/hona-city-2024-white/main.jpeg",
   },
@@ -160,94 +142,23 @@ export const FLEET: Car[] = [
     luggage: 3,
     transmission: "Automatic",
     fuel: "Petrol",
-    rate: { withDriver: 4500, selfDrive: 3500 },
-    tags: ["Fuel efficient", "Islamabad trip Rs 7,000"],
+    rate: { kind: "city", inCity: 5000, outCity: 7000 },
+    tags: ["Fuel efficient"],
     image: "/cars/yaris-white/main.jpeg",
   },
   {
-    id: "yaris-2026-white",
+    id: "yaris-2026",
     name: "Toyota Yaris",
     year: "2026",
-    color: "White",
+    color: "Black / White",
     category: "Sedan",
     seats: 5,
     luggage: 3,
     transmission: "Automatic",
     fuel: "Petrol",
-    rate: { withDriver: 11000, selfDrive: 8500 },
+    rate: { kind: "city", inCity: 5000, outCity: 7000 },
     tags: ["Newer unit", "Fuel efficient"],
-    image: "/cars/yaris-2026-white/main.jpeg",
-  },
-  {
-    id: "yaris-2026-black",
-    name: "Toyota Yaris",
-    year: "2026",
-    color: "Black",
-    category: "Sedan",
-    seats: 5,
-    luggage: 3,
-    transmission: "Automatic",
-    fuel: "Petrol",
-    rate: { withDriver: 11000, selfDrive: 8500 },
-    tags: ["Newer unit"],
     image: "/cars/yaris-2026-black/main.jpeg",
-  },
-  {
-    id: "civic-2020-white",
-    name: "Honda Civic",
-    year: "2020",
-    color: "White",
-    category: "Executive",
-    seats: 5,
-    luggage: 3,
-    transmission: "Automatic",
-    fuel: "Petrol · CVT",
-    rate: { withDriver: 8000, selfDrive: 6000 },
-    tags: ["Weddings", "Corporate"],
-    image: "/cars/civic-2020-white/main.jpeg",
-  },
-  {
-    id: "civic-2020-black",
-    name: "Honda Civic",
-    year: "2020",
-    color: "Black",
-    category: "Executive",
-    seats: 5,
-    luggage: 3,
-    transmission: "Automatic",
-    fuel: "Petrol · CVT",
-    rate: { withDriver: 8000, selfDrive: 6000 },
-    tags: ["Weddings", "Corporate"],
-    image: "/cars/civic-2020-black/main.jpeg",
-  },
-  {
-    id: "civic-2020-silver",
-    name: "Honda Civic",
-    year: "2020",
-    color: "Silver",
-    category: "Executive",
-    seats: 5,
-    luggage: 3,
-    transmission: "Automatic",
-    fuel: "Petrol · CVT",
-    rate: { withDriver: 8000, selfDrive: 6000 },
-    tags: ["Corporate"],
-    image: "/cars/civic-2020-silver/main.jpeg",
-  },
-  {
-    id: "civic-2024-white",
-    name: "Honda Civic",
-    year: "2024",
-    color: "White",
-    category: "Executive",
-    seats: 5,
-    luggage: 3,
-    transmission: "Automatic",
-    fuel: "Petrol · CVT",
-    rate: { withDriver: 12000, selfDrive: 9500 },
-    tags: ["Newer unit", "Weddings"],
-    image: "/cars/civic-2024-white/main.jpeg",
-    featured: true,
   },
   {
     id: "brv-silver",
@@ -259,23 +170,23 @@ export const FLEET: Car[] = [
     luggage: 3,
     transmission: "Automatic",
     fuel: "Petrol",
-    rate: { withDriver: 17000, selfDrive: 13000 },
+    rate: { kind: "city", inCity: 6000, outCity: 8000 },
     tags: ["7-seater", "Family trips"],
     image: "/cars/brv-silver/main.jpeg",
   },
   {
-    id: "jolion-2026-black",
-    name: "Haval Jolion",
-    year: "2026",
-    color: "Black",
-    category: "SUV",
+    id: "civic-2020",
+    name: "Honda Civic",
+    year: "2020",
+    color: "White / Black / Silver",
+    category: "Executive",
     seats: 5,
     luggage: 3,
     transmission: "Automatic",
-    fuel: "Petrol",
-    rate: { withDriver: 12000, selfDrive: 9000 },
-    tags: ["Newer unit"],
-    image: "/cars/jolion-2026-black/main.jpeg",
+    fuel: "Petrol · CVT",
+    rate: { kind: "city", inCity: 8000, outCity: 10000 },
+    tags: ["Weddings", "Corporate"],
+    image: "/cars/civic-2020-white/main.jpeg",
   },
   {
     id: "sportage",
@@ -287,9 +198,52 @@ export const FLEET: Car[] = [
     luggage: 3,
     transmission: "Automatic",
     fuel: "Petrol",
-    rate: { withDriver: 10000, selfDrive: 8000 },
+    rate: { kind: "city", inCity: 9000, outCity: 12000 },
     tags: ["Comfort SUV"],
     image: "/cars/sportage/main.jpeg",
+  },
+  {
+    id: "civic-2024-white",
+    name: "Honda Civic",
+    year: "2024",
+    color: "White",
+    category: "Executive",
+    seats: 5,
+    luggage: 3,
+    transmission: "Automatic",
+    fuel: "Petrol · CVT",
+    rate: { kind: "city", inCity: 12000, outCity: 15000 },
+    tags: ["Newer unit", "Weddings"],
+    image: "/cars/civic-2024-white/main.jpeg",
+    featured: true,
+  },
+  {
+    id: "corolla-cross",
+    name: "Toyota Corolla Cross",
+    year: "–",
+    color: "–",
+    category: "SUV",
+    seats: 5,
+    luggage: 3,
+    transmission: "Automatic",
+    fuel: "Petrol · Hybrid",
+    rate: { kind: "city", inCity: 12000, outCity: 15000 },
+    tags: ["Crossover comfort"],
+    image: "/cars/corolla-cross/main.jpeg",
+  },
+  {
+    id: "jolion-2026-black",
+    name: "Haval Jolion",
+    year: "2026",
+    color: "Black",
+    category: "SUV",
+    seats: 5,
+    luggage: 3,
+    transmission: "Automatic",
+    fuel: "Petrol",
+    rate: { kind: "city", inCity: 12000, outCity: 15000 },
+    tags: ["Newer unit"],
+    image: "/cars/jolion-2026-black/main.jpeg",
   },
   {
     id: "prado-black",
@@ -301,7 +255,7 @@ export const FLEET: Car[] = [
     luggage: 4,
     transmission: "Automatic",
     fuel: "Diesel · 4x4",
-    rate: { withDriver: 20000, selfDrive: null },
+    rate: { kind: "from", startingFrom: 18000 },
     tags: ["Northern tours", "Protocol"],
     image: "/cars/prado-black/main.jpeg",
   },
@@ -315,10 +269,24 @@ export const FLEET: Car[] = [
     luggage: 5,
     transmission: "Automatic",
     fuel: "Diesel · 4x4",
-    rate: { withDriver: 25000, selfDrive: null },
+    rate: { kind: "from", startingFrom: 25000 },
     tags: ["Luxury", "Protocol"],
     image: "/cars/land-cruiser-white/main.jpeg",
     featured: true,
+  },
+  {
+    id: "prado-bulletproof",
+    name: "Toyota Prado — Bulletproof",
+    year: "–",
+    color: "White",
+    category: "SUV",
+    seats: 7,
+    luggage: 4,
+    transmission: "Automatic",
+    fuel: "Diesel · 4x4",
+    rate: { kind: "from", startingFrom: 70000 },
+    tags: ["Armoured", "VIP protocol"],
+    image: "/cars/prado-bulletproof/main.jpeg",
   },
 ];
 

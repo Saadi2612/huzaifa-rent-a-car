@@ -31,7 +31,7 @@ export default function Home() {
     },
     areaServed: site.cities.map((c) => ({ "@type": "City", name: c })),
     openingHours: "Mo-Su 00:00-23:59",
-    priceRange: "PKR 3,000 – 25,000 per day",
+    priceRange: "PKR 3,000 – 70,000 per day",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: "4.9",

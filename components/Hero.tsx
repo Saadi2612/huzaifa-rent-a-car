@@ -125,7 +125,7 @@ export default function Hero() {
                 <div className="absolute -right-2 -bottom-5 rounded-card border border-grey-200 bg-ink px-p2 py-3 shadow-lift-lg sm:-right-6">
                   <p className="label-eyebrow text-grey-500">Starting from</p>
                   <p className="display-s mt-1 text-[1.75rem] text-paper">
-                    Rs 4,500<span className="label-ui text-grey-500"> /day</span>
+                    Rs 3,000<span className="label-ui text-grey-500"> /day</span>
                   </p>
                 </div>
               </div>
