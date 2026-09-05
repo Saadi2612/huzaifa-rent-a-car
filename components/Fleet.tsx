@@ -3,7 +3,14 @@
 import { useMemo, useState } from "react";
 import Photo from "./Photo";
 import Reveal from "./Reveal";
-import { CATEGORIES, FLEET, site, waLink, type RentalMode } from "@/lib/site";
+import {
+  CATEGORIES,
+  FLEET,
+  site,
+  waLink,
+  type Car,
+  type RentalMode,
+} from "@/lib/site";
 import { ArrowUpRight, Bag, Fuel, Gear, Seat, Whatsapp } from "./icons";
 
 const money = (n: number) => `Rs ${n.toLocaleString("en-PK")}`;
@@ -88,157 +95,15 @@ export default function Fleet({
 
         {/* Grid */}
         <ul className="mt-p4 grid gap-p2 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-          {cars.map((car, i) => {
-            // "from" cars are quoted the same either way — we never split them
-            // by driver. "city" cars only have without-driver rates on the
-            // sheet, so with a driver we send people to WhatsApp for a quote.
-            const askForRate = car.rate.kind === "city" && mode === "with-driver";
-
-            return (
-              <Reveal
-                as="li"
-                key={car.id}
-                delay={(i % 3) * 90}
-                className="h-full"
-              >
-                <article
-                  className="float-card float-hover group flex h-full flex-col overflow-hidden"
-                >
-                  {/* Photo */}
-                  <div className="relative aspect-[16/10] overflow-hidden border-b border-grey-200">
-                    <Photo
-                      src={car.image}
-                      exists={Boolean(manifest[car.image])}
-                      alt={`${car.name} available for rent from ${site.name} Rent A Car`}
-                      sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, (max-width: 1536px) 30vw, 23vw"
-                      className="transition-transform duration-700 ease-out-soft group-hover:scale-[1.04]"
-                    />
-                    <span className="label-ui absolute top-4 left-4 rounded-pill bg-paper/85 px-3 py-1.5 text-ink shadow-lift-sm backdrop-blur">
-                      {car.category}
-                    </span>
-                    {car.featured && (
-                      <span className="label-ui absolute top-4 right-4 rounded-pill bg-brand px-3 py-1.5 text-paper shadow-lift-brand">
-                        Popular
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Body */}
-                  <div className="flex flex-1 flex-col p-p2">
-                    <h3 className="display-s text-[1.625rem] text-ink">{car.name}</h3>
-                    <p className="label-ui mt-0.5 text-grey-500">
-                      {car.year} · {car.color}
-                    </p>
-
-                    <ul className="mt-p1 flex flex-wrap gap-x-3 gap-y-1.5 text-grey-600">
-                      <li className="label-ui flex items-center gap-1.5">
-                        <Seat className="h-4 w-4 text-grey-500" />
-                        {car.seats} seats
-                      </li>
-                      <li className="label-ui flex items-center gap-1.5">
-                        <Bag className="h-4 w-4 text-grey-500" />
-                        {car.luggage} bags
-                      </li>
-                      <li className="label-ui flex items-center gap-1.5">
-                        <Gear className="h-4 w-4 text-grey-500" />
-                        {car.transmission}
-                      </li>
-                      <li className="label-ui flex items-center gap-1.5">
-                        <Fuel className="h-4 w-4 text-grey-500" />
-                        {car.fuel}
-                      </li>
-                    </ul>
-
-                    <div className="mt-p1 mb-p1 flex flex-wrap gap-1.5">
-                      {car.tags.map((t) => (
-                        <span
-                          key={t}
-                          className="label-ui rounded-chip bg-brand-tint px-2.5 py-1 text-brand"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-
-                    {/* Rate + CTA. A hairline separates it instead of a filled
-                        band — the secondary rate needs structure, not weight.
-                        The headline figure shares a row with the button; the
-                        secondary rate sits on its own full-width line below so
-                        it never wraps in the narrow 4-column track. */}
-                    <div className="mt-auto border-t border-grey-200 pt-p1">
-                      {/* Label rides its own full-width line: sharing the row
-                          with the button squeezed it into a wrap at the
-                          4-column track. The driver mode is already stated by
-                          the toggle above the grid, so it is not repeated. */}
-                      <p className="label-eyebrow text-grey-500">
-                        {askForRate
-                          ? "With driver"
-                          : car.rate.kind === "from"
-                            ? "Starting from"
-                            : "In city"}
-                      </p>
-
-                      <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-end sm:justify-between">
-                        {/* "On request" is not a price, so it is not typeset as
-                            one — the display face is reserved for figures. */}
-                        <p
-                          className={
-                            askForRate
-                              ? "min-w-0 text-[1.0625rem] leading-snug font-medium whitespace-nowrap text-ink"
-                              : "display-s min-w-0 text-[1.625rem] text-ink"
-                          }
-                        >
-                          {askForRate ? (
-                            "On request"
-                          ) : (
-                            <>
-                              {money(
-                                car.rate.kind === "from"
-                                  ? car.rate.startingFrom
-                                  : car.rate.inCity,
-                              )}
-                              <span className="label-ui text-grey-500 normal-case">
-                                {" "}
-                                /day
-                              </span>
-                            </>
-                          )}
-                        </p>
-
-                        <a
-                          href={waLink(
-                            `Assalam o Alaikum ${site.name} Rent A Car,\n\nI'd like to book the ${car.name}${car.rate.kind === "city" ? ` (${mode === "with-driver" ? "with driver" : "without driver"})` : ""}.\n\nPlease confirm availability and the total rate.`,
-                          )}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label={`${askForRate ? "Get a quote for" : "Book"} the ${car.name} on WhatsApp`}
-                          className="label-ui flex w-full shrink-0 items-center justify-center min-h-11 gap-1.5 rounded-pill bg-ink px-4 py-2.5 text-paper sm:min-h-0 transition-all duration-400 ease-out-soft hover:bg-brand hover:shadow-lift-brand sm:w-auto"
-                        >
-                          <Whatsapp className="h-4 w-4" />
-                          {askForRate ? "Get a quote" : "Book"}
-                        </a>
-                      </div>
-
-                      <p className="label-ui mt-p1 text-grey-500">
-                        {askForRate ? (
-                          "Send your dates — quoted in ~15 min"
-                        ) : car.rate.kind === "from" ? (
-                          "Out of city quoted per trip"
-                        ) : (
-                          <>
-                            Out of city{" "}
-                            <span className="text-grey-600">
-                              from {money(car.rate.outCity)}
-                            </span>
-                          </>
-                        )}
-                      </p>
-                    </div>
-                  </div>
-                </article>
-              </Reveal>
-            );
-          })}
+          {cars.map((car, i) => (
+            <Reveal as="li" key={car.id} delay={(i % 3) * 90} className="h-full">
+              <CarCard
+                car={car}
+                mode={mode}
+                photoExists={Boolean(manifest[car.image])}
+              />
+            </Reveal>
+          ))}
         </ul>
 
         {/* Footnote CTA */}
@@ -268,5 +133,211 @@ export default function Fleet({
         </Reveal>
       </div>
     </section>
+  );
+}
+
+/* -------------------------------------------------------------------------- */
+/* Card                                                                        */
+/* -------------------------------------------------------------------------- */
+
+type Trip = "in-city" | "out-city";
+
+/**
+ * One car. Owns its own trip selection so the card can say exactly which rate
+ * the customer is looking at, and carry that into the WhatsApp message —
+ * otherwise the enquiry arrives with no way to tell which of the two prices
+ * was on screen.
+ */
+function CarCard({
+  car,
+  mode,
+  photoExists,
+}: {
+  car: Car;
+  mode: RentalMode;
+  photoExists: boolean;
+}) {
+  const [trip, setTrip] = useState<Trip>("in-city");
+
+  // "from" cars are quoted the same either way — we never split them by driver
+  // or by trip. "city" cars only have without-driver rates on the sheet, so
+  // with a driver we send people to WhatsApp for a quote.
+  const splitByTrip = car.rate.kind === "city";
+  const askForRate = splitByTrip && mode === "with-driver";
+  const outCity = splitByTrip && trip === "out-city";
+
+  const driverLabel = mode === "with-driver" ? "With driver" : "Without driver";
+
+  /** Exactly what the customer is being shown, in words. */
+  const shownRate = askForRate
+    ? "To be quoted"
+    : car.rate.kind === "from"
+      ? `from ${money(car.rate.startingFrom)} /day (starting price)`
+      : outCity
+        ? `from ${money(car.rate.outCity)} /day (starting price)`
+        : `${money(car.rate.inCity)} /day (fixed)`;
+
+  const message = [
+    `Assalam o Alaikum ${site.name} Rent A Car,`,
+    "",
+    `I'd like to book the ${car.name}.`,
+    "",
+    // "from" cars are never advertised with a driver split, so the enquiry
+    // does not claim one either.
+    ...(splitByTrip
+      ? [
+          `• Rental type: ${driverLabel}`,
+          `• Trip: ${outCity ? "Out of city" : "In city"}`,
+        ]
+      : []),
+    `• Rate shown on your site: ${shownRate}`,
+    "• Dates:",
+    "",
+    "Please confirm availability and the final rate.",
+  ].join("\n");
+
+  return (
+    <article className="float-card float-hover group flex h-full flex-col overflow-hidden">
+      {/* Photo */}
+      <div className="relative aspect-[16/10] overflow-hidden border-b border-grey-200">
+        <Photo
+          src={car.image}
+          exists={photoExists}
+          alt={`${car.name} available for rent from ${site.name} Rent A Car`}
+          sizes="(max-width: 640px) 92vw, (max-width: 1024px) 46vw, (max-width: 1536px) 30vw, 23vw"
+          className="transition-transform duration-700 ease-out-soft group-hover:scale-[1.04]"
+        />
+        <span className="label-ui absolute top-4 left-4 rounded-pill bg-paper/85 px-3 py-1.5 text-ink shadow-lift-sm backdrop-blur">
+          {car.category}
+        </span>
+        {car.featured && (
+          <span className="label-ui absolute top-4 right-4 rounded-pill bg-brand px-3 py-1.5 text-paper shadow-lift-brand">
+            Popular
+          </span>
+        )}
+      </div>
+
+      {/* Body */}
+      <div className="flex flex-1 flex-col p-p2">
+        <h3 className="display-s text-[1.625rem] text-ink">{car.name}</h3>
+        <p className="label-ui mt-0.5 text-grey-500">
+          {car.year} · {car.color}
+        </p>
+
+        <ul className="mt-p1 flex flex-wrap gap-x-3 gap-y-1.5 text-grey-600">
+          <li className="label-ui flex items-center gap-1.5">
+            <Seat className="h-4 w-4 text-grey-500" />
+            {car.seats} seats
+          </li>
+          <li className="label-ui flex items-center gap-1.5">
+            <Bag className="h-4 w-4 text-grey-500" />
+            {car.luggage} bags
+          </li>
+          <li className="label-ui flex items-center gap-1.5">
+            <Gear className="h-4 w-4 text-grey-500" />
+            {car.transmission}
+          </li>
+          <li className="label-ui flex items-center gap-1.5">
+            <Fuel className="h-4 w-4 text-grey-500" />
+            {car.fuel}
+          </li>
+        </ul>
+
+        <div className="mt-p2 mb-p2 flex flex-wrap gap-1.5">
+          {car.tags.map((t) => (
+            <span
+              key={t}
+              className="label-ui rounded-chip bg-brand-tint px-2.5 py-1 text-brand"
+            >
+              {t}
+            </span>
+          ))}
+        </div>
+
+        {/* Rate + CTA, separated by a hairline. The trip switch drives the
+            figure, the note under it and the WhatsApp message together, so the
+            enquiry always names the rate that was on screen. */}
+        <div className="mt-auto border-t border-grey-200 pt-p2">
+          {splitByTrip ? (
+            <div
+              role="group"
+              aria-label={`Trip type for the ${car.name}`}
+              className="flex w-max items-center gap-1 rounded-pill bg-grey-100 p-1"
+            >
+              {(
+                [
+                  ["in-city", "In city"],
+                  ["out-city", "Out of city"],
+                ] as const
+              ).map(([value, label]) => (
+                <button
+                  key={value}
+                  type="button"
+                  onClick={() => setTrip(value)}
+                  aria-pressed={trip === value}
+                  className={`label-ui flex min-h-9 items-center rounded-pill px-3 py-1.5 whitespace-nowrap transition-all duration-400 ease-out-soft sm:min-h-0 ${
+                    trip === value
+                      ? "bg-paper text-ink shadow-lift-sm"
+                      : "text-grey-500 hover:text-ink"
+                  }`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          ) : (
+            <p className="label-eyebrow text-grey-500">Starting from</p>
+          )}
+
+          <div className="mt-p1 flex flex-col items-stretch gap-3 sm:flex-row sm:items-end sm:justify-between">
+            {/* "On request" is not a price, so it is not typeset as one —
+                the display face is reserved for figures. */}
+            <p
+              className={
+                askForRate
+                  ? "min-w-0 text-[1.0625rem] leading-snug font-medium whitespace-nowrap text-ink"
+                  : "display-s min-w-0 text-[1.625rem] text-ink"
+              }
+            >
+              {askForRate ? (
+                "On request"
+              ) : (
+                <>
+                  {money(
+                    car.rate.kind === "from"
+                      ? car.rate.startingFrom
+                      : outCity
+                        ? car.rate.outCity
+                        : car.rate.inCity,
+                  )}
+                  <span className="label-ui text-grey-500 normal-case"> /day</span>
+                </>
+              )}
+            </p>
+
+            <a
+              href={waLink(message)}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${askForRate ? "Get a quote for" : "Book"} the ${car.name} on WhatsApp`}
+              className="label-ui flex min-h-11 w-full shrink-0 items-center justify-center gap-1.5 rounded-pill bg-ink px-4 py-2.5 text-paper transition-all duration-400 ease-out-soft hover:bg-brand hover:shadow-lift-brand sm:min-h-0 sm:w-auto"
+            >
+              <Whatsapp className="h-4 w-4" />
+              {askForRate ? "Get a quote" : "Book"}
+            </a>
+          </div>
+
+          <p className="label-ui mt-p1 text-grey-500">
+            {askForRate
+              ? "Send your dates — quoted in ~15 min"
+              : car.rate.kind === "from"
+                ? "Starting price, varies by route"
+                : outCity
+                  ? "Starting price, varies by route"
+                  : "Fixed daily rate, without driver"}
+          </p>
+        </div>
+      </div>
+    </article>
   );
 }

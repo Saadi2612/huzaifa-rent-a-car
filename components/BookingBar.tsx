@@ -34,7 +34,8 @@ export default function BookingBar() {
   const [days, setDays] = useState<string>("3");
 
   const message = useMemo(() => {
-    const modeLabel = mode === "with-driver" ? "With Driver" : "Self Drive";
+    const modeLabel =
+      mode === "with-driver" ? "With Driver" : "Without Driver";
     return [
       `Assalam o Alaikum ${site.name} Rent A Car,`,
       "",
@@ -56,7 +57,7 @@ export default function BookingBar() {
         {(
           [
             ["with-driver", "With Driver"],
-            ["self-drive", "Self Drive"],
+            ["self-drive", "Without Driver"],
           ] as const
         ).map(([value, label]) => (
           <button
